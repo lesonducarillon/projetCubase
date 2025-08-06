@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Image interactive avec redirection</title>
+  <style>
+    .image-container {
+      position: relative;
+      max-width: 100%;
+    }
+
+    .image-container img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .highlight-box {
+      position: absolute;
+      border: 2px solid orange;
+      pointer-events: none;
+      box-sizing: border-box;
+      z-index: 10;
+      transition: border-color 0.3s ease;
+    }
+
+    .highlight-box.active {
+      border-color: red;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 🖼️ Image interactive -->
+  <div class="image-container">
+    <img 
+      src="https://i.postimg.cc/02KrrHkf/Hub-0.jpg"
+      usemap="#map1" 
+      alt="Image interactive" 
+      id="interactive-image">
+
+    <!-- 🔲 Boîte de surlignage -->
+    <div class="highlight-box" id="highlight1"></div>
+  </div>
+
+  <!-- 🗺️ Carte cliquable -->
+  <map name="map1">
+    <area 
+      shape="rect" 
+      coords="8,52,620,591" 
+      href="#" 
+      alt="News1" 
+      title="News" 
+      onclick="redirectToGoogle(); return false;" 
+      onmouseover="activateHighlight('highlight1')" 
+      onmouseout="deactivateHighlight('highlight1')">
+  </map>
+
+  <!-- 📦 Script de redimensionnement -->
+  <script src="https://cdn.jsdelivr.net/npm/image-map-resizer@1.0.10/js/imageMapResizer.min.js"></script>
+  <script>
+    window.onload = function() {
+      imageMapResize();
+
+      const img = document.getElementById('interactive-image');
+      const highlight1 = document.getElementById('highlight1');
+
+      const coordsList = [
+        { element: highlight1, coords: [8,52,620,591] }
+      ];
+
+      function updateHighlightBoxes() {
+        const imgRect = img.getBoundingClientRect();
+        const scaleX = imgRect.width / img.naturalWidth;
+        const scaleY = imgRect.height / img.naturalHeight;
+
+        coordsList.forEach(({ element, coords }) => {
+          const x = coords[0] * scaleX;
+          const y = coords[1] * scaleY;
+          const width = (coords[2] - coords[0]) * scaleX;
+          const height = (coords[3] - coords[1]) * scaleY;
+
+          element.style.left = `${x}px`;
+          element.style.top = `${y}px`;
+          element.style.width = `${width}px`;
+          element.style.height = `${height}px`;
+        });
+      }
+
+      window.addEventListener('resize', updateHighlightBoxes);
+      img.addEventListener('load', updateHighlightBoxes);
+      if (img.complete) updateHighlightBoxes();
+    };
+
+    function activateHighlight(id) {
+      document.getElementById(id).classList.add('active');
+    }
+
+    function deactivateHighlight(id) {
+      document.getElementById(id).classList.remove('active');
+    }
+
+    // 🔁 Redirection vers Google Sites
+    function redirectToGoogle() {
+      window.location.href = "https://sites.google.com/view/frquencesonimages/cubase/hub/hub-news?authuser=0";
+    }
+  </script>
+
+</body>
+</html>
