@@ -2,21 +2,39 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Redirection</title>
-  <script>
-    window.onload = function() {
-      window.open("https://sites.google.com/view/frquencesonimages/cubase/hub/hub-news?authuser=0", "_blank");
-    };
-  </script>
+  <title>Redirection vers le Hub News</title>
   <style>
     body {
       font-family: sans-serif;
       text-align: center;
       padding: 50px;
+      background-color: #f9f9f9;
+    }
+
+    button {
+      padding: 12px 24px;
+      font-size: 16px;
+      background-color: #ff6600;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #e65c00;
     }
   </style>
 </head>
 <body>
-  <p>Redirection en cours vers le contenu...</p>
+  <h2>Accès au Hub News</h2>
+  <p>Pour continuer, cliquez sur le bouton ci-dessous :</p>
+  <button onclick="openGoogleSite()">Accéder au contenu</button>
+
+  <script>
+    function openGoogleSite() {
+      window.open("https://sites.google.com/view/frquencesonimages/cubase/hub/hub-news?authuser=0", "_blank");
+    }
+  </script>
 </body>
 </html>
